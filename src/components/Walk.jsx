@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
 
 export default function Walk() {
-  const DURATION = 20; // secondi (mock). Metti 120 per 2 minuti
+  const DURATION = 120; // secondi
   const [seconds, setSeconds] = useState(0);
   const [steps, setSteps] = useState(0);
   const [done, setDone] = useState(false);
 
-  // 👉 sostituisci con IP del robot (es: http://192.168.1.50:5000/activity_done)
   const ROBOT_URL = "http://<ROBOT_IP>:5000/activity_done";
+  const STEPS_URL = "http://<ROBOT_IP>:5000/get_steps";
 
-  // per testare senza robot in locale
-  // const ROBOT_URL = "http://localhost:5000/activity_done";
-
+  // Timer principale
   useEffect(() => {
     if (done) return;
 
     if (seconds < DURATION) {
-      const interval = setInterval(() => {
+      const interval = setInterval(async () => {
         setSeconds((s) => s + 1);
-        setSteps((st) => st + Math.floor(Math.random() * 3) + 1);
+
+        try {
+          const res = await fetch(STEPS_URL);
+          const data = await res.json();
+          setSteps(data.steps);
+        } catch (err) {
+          console.error("Errore fetch steps:", err);
+        }
       }, 1000);
       return () => clearInterval(interval);
     } else {
@@ -29,11 +34,11 @@ export default function Walk() {
   const handleComplete = async () => {
     setDone(true);
     try {
-      await fetch(ROBOT_URL, { // per usarlo senza robot commentare da qui
+      await fetch(ROBOT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ activity: "walk" }),
-      });                       // a qui
+      });
       console.log("Notifica inviata al robot");
     } catch (err) {
       console.error("Errore invio al robot:", err);
