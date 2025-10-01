@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 export default function Breath() {
   const DURATION = 120; // secondi (2 minuti)
   const [seconds, setSeconds] = useState(0);
-  const [phase, setPhase] = useState("inhale"); // inhale | hold | exhale | hold
+  const [phase, setPhase] = useState("inhale"); // inhale | hold1 | exhale | hold2
   const [done, setDone] = useState(false);
 
   // URL del server ROS Flask
@@ -11,9 +11,9 @@ export default function Breath() {
   // per test: const ROBOT_URL = "http://localhost:5000/activity_done";
 
   const phases = ["inhale", "hold1", "exhale", "hold2"];
-  const phaseDuration = 4000; // 4 secondi per ogni fase
+  const phaseDuration = 4000; // 4 secondi
 
-  // Timer principale
+  // Timer principale → durata complessiva attività
   useEffect(() => {
     if (done) return;
     if (seconds < DURATION) {
@@ -51,16 +51,33 @@ export default function Breath() {
     }
   };
 
-  // Calcola scala in base alla fase
+  // Scala dei cerchi in base alla fase
   const getScale = (phase) => {
     switch (phase) {
-      case "inhale": return 1.5;
-      case "exhale": return 1.0;
-      default: return 1.25; // hold
+      case "inhale":
+        return 1.5; // cresce
+      case "exhale":
+        return 1.0; // torna piccolo
+      default:
+        return 1.5; // hold mantiene il valore
     }
   };
 
   const scale = getScale(phase);
+
+  // Transizione solo in inhale/exhale
+  const getStyle = (phase, scale) => {
+    if (phase.includes("hold")) {
+      return {
+        transform: `scale(${scale})`,
+        transition: "none", // fermo
+      };
+    }
+    return {
+      transform: `scale(${scale})`,
+      transition: "transform 4s ease-in-out", // animazione
+    };
+  };
 
   return (
     <div
@@ -93,22 +110,21 @@ export default function Breath() {
                   height: `${200 - i * 40}px`,
                   borderRadius: "50%",
                   backgroundColor: "rgba(135,206,250,0.6)",
-                  transform: `scale(${scale})`,
-                  transition: "transform 4s ease-in-out",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  fontSize: i === 0 ? "28px" : "0px", // solo il cerchio centrale ha il testo
+                  fontSize: i === 0 ? "28px" : "0px", // solo cerchio centrale mostra testo
                   fontWeight: "bold",
                   color: "#001",
+                  ...getStyle(phase, scale), // 👈 applico stile dinamico
                 }}
               >
                 {i === 0 &&
                   (phase === "inhale"
                     ? "Inhale"
-                    : phase.includes("hold")
-                    ? "Hold"
-                    : "Exhale")}
+                    : phase === "exhale"
+                    ? "Exhale"
+                    : "Hold")}
               </div>
             ))}
           </div>
