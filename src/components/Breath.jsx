@@ -11,7 +11,7 @@ export default function Breath() {
   // per test: const ROBOT_URL = "http://localhost:5000/activity_done";
 
   const phases = ["inhale", "hold1", "exhale", "hold2"];
-  const phaseDuration = 4000; // 4 secondi
+  const phaseDuration = 4000; // 4 secondi per ogni fase
 
   // Timer principale → durata complessiva attività
   useEffect(() => {
@@ -51,32 +51,32 @@ export default function Breath() {
     }
   };
 
-  // Scala dei cerchi in base alla fase
+  // Calcola scala in base alla fase
   const getScale = (phase) => {
     switch (phase) {
       case "inhale":
-        return 1.5; // cresce
+      case "hold1":
+        return 1.5; // grande
       case "exhale":
-        return 1.0; // torna piccolo
+      case "hold2":
       default:
-        return 1.5; // hold mantiene il valore
+        return 1.0; // piccolo
     }
   };
 
   const scale = getScale(phase);
 
-  // Transizione solo in inhale/exhale
+  // Se siamo in inhale o exhale → transizione animata
+  // Se siamo in hold → fermo
   const getStyle = (phase, scale) => {
-    if (phase.includes("hold")) {
-      return {
-        transform: `scale(${scale})`,
-        transition: "none", // fermo
-      };
-    }
-    return {
+    const base = {
       transform: `scale(${scale})`,
-      transition: "transform 4s ease-in-out", // animazione
     };
+
+    if (phase === "inhale" || phase === "exhale") {
+      return { ...base, transition: "transform 4s ease-in-out" };
+    }
+    return { ...base, transition: "none" };
   };
 
   return (
@@ -113,10 +113,10 @@ export default function Breath() {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  fontSize: i === 0 ? "28px" : "0px", // solo cerchio centrale mostra testo
+                  fontSize: i === 0 ? "28px" : "0px", // testo solo al centro
                   fontWeight: "bold",
                   color: "#001",
-                  ...getStyle(phase, scale), // 👈 applico stile dinamico
+                  ...getStyle(phase, scale),
                 }}
               >
                 {i === 0 &&
@@ -134,7 +134,7 @@ export default function Breath() {
           </h3>
         </>
       ) : (
-        <h2>✅ Ben fatto! Attività completata.</h2>
+        <h2>✅ Well done! Activity completed..</h2>
       )}
     </div>
   );

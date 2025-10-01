@@ -65,7 +65,7 @@ export default function Walk() {
           </button>
         </>
       ) : (
-        <h2>✅ Ben fatto! Attività completata.</h2>
+        <h2>✅ Well done! Activity completed.</h2>
       )}
     </div>
   );
