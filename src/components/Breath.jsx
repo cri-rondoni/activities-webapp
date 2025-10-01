@@ -134,7 +134,7 @@ export default function Breath() {
           </h3>
         </>
       ) : (
-        <h2>✅ Well done! Activity completed..</h2>
+        <h2>✅ Well done! Activity completed.</h2>
       )}
     </div>
   );
