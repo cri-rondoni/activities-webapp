@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import twistImg from "../stretch/twist.png"; // importa immagine
+import twistImg from "../stretch/twist.png"; // immagine dentro src/stretch
 
 export default function SpinalTwist() {
-  const DURATION = 60; // durata totale (1 min)
+  const DURATION = 60; 
   const [seconds, setSeconds] = useState(0);
   const [done, setDone] = useState(false);
 
-  // Timer principale
   useEffect(() => {
     if (done) return;
     if (seconds < DURATION) {

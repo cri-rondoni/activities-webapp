@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import neckImg from "../stretch/neck_side.png"; // importa immagine
+import neckImg from "../stretch/neck_side.png"; // immagine dentro src/stretch
 
 export default function NeckStretch() {
-  const DURATION = 60; // durata totale (1 min)
+  const DURATION = 60; 
   const [seconds, setSeconds] = useState(0);
   const [done, setDone] = useState(false);
 
-  // Timer principale
   useEffect(() => {
     if (done) return;
     if (seconds < DURATION) {
