@@ -46,7 +46,7 @@ export default function Walk() {
   };
 
   return (
-    <div style={{ textAlign: "center", fontFamily: "Arial", padding: "40px" }}>
+    <div style={{ textAlign: "center", padding: "40px" }}>
       <h1>🚶 Camminata guidata</h1>
       {!done ? (
         <>
@@ -65,7 +65,7 @@ export default function Walk() {
           </button>
         </>
       ) : (
-        <h2>✅ Ben fatto! Attività completata.</h2>
+        <h2>✅ Well done! Activity completed.</h2>
       )}
     </div>
   );

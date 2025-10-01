@@ -1,4 +1,4 @@
-//import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Breath() {
   const DURATION = 120;             // durata attività complessiva (sec)
@@ -113,8 +113,7 @@ export default function Breath() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        color: "white",
-        fontFamily: "Arial",
+        color: "white"
       }}
     >
       {!done ? (
