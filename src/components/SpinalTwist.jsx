@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+//import React, { useState, useEffect } from "react";
 import twistImg from "../stretch/twist.png"; // immagine dentro src/stretch
 
 export default function SpinalTwist() {

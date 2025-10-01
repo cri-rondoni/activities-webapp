@@ -1,11 +1,10 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Walk from "./components/Walk";
-import Breath from "./components/Breath";
-import NeckStretch from "./components/NeckStretch";
-import SpinalTwist from "./components/SpinalTwist";
+import Walk from "./components/Walk.jsx";
+import Breath from "./components/Breath.jsx";
+import NeckStretch from "./components/NeckStretch.jsx";
+import SpinalTwist from "./components/SpinalTwist.jsx";
 
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -17,3 +16,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+export default App;

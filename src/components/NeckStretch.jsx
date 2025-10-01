@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+//import React, { useState, useEffect } from "react";
 import neckImg from "../stretch/neck_side.png"; // immagine dentro src/stretch
 
 export default function NeckStretch() {
