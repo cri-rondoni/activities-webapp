@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import twistImg from "../assets/stretch/twist.png"; // importa immagine
+import twistImg from "../stretch/twist.png"; // importa immagine
 
 export default function SpinalTwist() {
   const DURATION = 60; // durata totale (1 min)

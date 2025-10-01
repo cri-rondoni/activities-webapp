@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import neckImg from "../assets/stretch/neck_side.png"; // importa immagine
+import neckImg from "../stretch/neck_side.png"; // importa immagine
 
 export default function NeckStretch() {
   const DURATION = 60; // durata totale (1 min)
