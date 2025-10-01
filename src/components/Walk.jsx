@@ -9,6 +9,9 @@ export default function Walk() {
   // 👉 sostituisci con IP del robot (es: http://192.168.1.50:5000/activity_done)
   const ROBOT_URL = "http://<ROBOT_IP>:5000/activity_done";
 
+  // per testare senza robot in locale
+  // const ROBOT_URL = "http://localhost:5000/activity_done";
+
   useEffect(() => {
     if (done) return;
 
@@ -26,14 +29,14 @@ export default function Walk() {
   const handleComplete = async () => {
     setDone(true);
     try {
-      await fetch(ROBOT_URL, {
+      await fetch(ROBOT_URL, { // per usarlo senza robot commentare da qui
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ activity: "walk" }),
-      });
-      console.log("✅ Notifica inviata al robot");
+      });                       // a qui
+      console.log("Notifica inviata al robot");
     } catch (err) {
-      console.error("❌ Errore invio al robot:", err);
+      console.error("Errore invio al robot:", err);
     }
   };
 

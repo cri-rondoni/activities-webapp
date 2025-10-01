@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Walk from "./components/Walk";
+import Breath from "./components/Breath";
 
-// 👉 in futuro aggiungerai qui altre attività
 export default function App() {
-  const [activity, setActivity] = useState("walk"); // default: walk
-
   return (
-    <div>
-      {activity === "walk" && <Walk />}
-      {/* es. {activity === "stretch" && <Stretch />} */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/walk" element={<Walk />} />
+        <Route path="/breath" element={<Breath />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
