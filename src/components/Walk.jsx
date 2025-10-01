@@ -1,4 +1,4 @@
-//import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Walk() {
   const DURATION = 120; // secondi
@@ -65,7 +65,7 @@ export default function Walk() {
           </button>
         </>
       ) : (
-        <h2>✅ Well done! Activity completed.</h2>
+        <h2>✅ Ben fatto! Attività completata.</h2>
       )}
     </div>
   );
