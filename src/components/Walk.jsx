@@ -45,28 +45,76 @@ export default function Walk() {
     }
   };
 
+  // progress %
+  const progress = (seconds / DURATION) * 100;
+
   return (
-    <div style={{ textAlign: "center", padding: "40px" }}>
-      <h1>🚶 Camminata guidata</h1>
-      {!done ? (
-        <>
-          <h2>Tempo: {seconds}/{DURATION} s</h2>
-          <h3>Contapassi: {steps}</h3>
-          <button
-            onClick={handleComplete}
-            style={{
-              padding: "12px 24px",
-              fontSize: "18px",
-              marginTop: "20px",
-              cursor: "pointer",
-            }}
-          >
-            Completato
-          </button>
-        </>
-      ) : (
-        <h2>✅ Well done! Activity completed.</h2>
-      )}
+    <div
+      style={{
+        background: "#f5f7fa",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "Segoe UI, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "16px",
+          padding: "40px",
+          maxWidth: "400px",
+          textAlign: "center",
+          boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
+        }}
+      >
+        {!done ? (
+          <>
+            <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>🚶 Camminata guidata</h1>
+            <p style={{ fontSize: "18px", color: "#444" }}>
+              Tempo: <b>{seconds}</b> / {DURATION} s
+            </p>
+            <div
+              style={{
+                background: "#e0e0e0",
+                borderRadius: "10px",
+                overflow: "hidden",
+                margin: "15px 0",
+              }}
+            >
+              <div
+                style={{
+                  height: "14px",
+                  width: `${progress}%`,
+                  background: "#4a90e2",
+                  transition: "width 1s linear",
+                }}
+              />
+            </div>
+            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+              Contapassi: <b>{steps}</b>
+            </p>
+            <button
+              onClick={handleComplete}
+              style={{
+                padding: "12px 24px",
+                fontSize: "18px",
+                background: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                transition: "0.3s",
+              }}
+            >
+              ✅ Completato
+            </button>
+          </>
+        ) : (
+          <h2 style={{ color: "#2ecc71" }}>🎉 Well done! Activity completed.</h2>
+        )}
+      </div>
     </div>
   );
 }
