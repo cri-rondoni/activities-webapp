@@ -1,8 +1,4 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Walk from "./components/Walk";
-import Breath from "./components/Breath";
-import Stretch from "./components/Stretch";  // 👈 nuovo import
+import SpotDiff from "./components/SpotDiff";
 
 export default function App() {
   return (
@@ -10,7 +6,8 @@ export default function App() {
       <Routes>
         <Route path="/walk" element={<Walk />} />
         <Route path="/breath" element={<Breath />} />
-        <Route path="/stretch" element={<Stretch />} /> {/* 👈 nuova route */}
+        <Route path="/stretch" element={<Stretch />} />
+        <Route path="/spotdiff" element={<SpotDiff />} /> {/* 👈 nuova route */}
       </Routes>
     </BrowserRouter>
   );
