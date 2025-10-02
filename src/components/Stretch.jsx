@@ -66,7 +66,7 @@ export default function Stretch() {
       <img
         src={exercise.image}
         alt={exercise.title}
-        style={{ maxWidth: "600px", margin: "20px auto", borderRadius: "12px" }}
+        style={{ maxWidth: "500px", margin: "20px auto", borderRadius: "12px" }}
       />
       <p style={{ whiteSpace: "pre-line", fontSize: "18px" }}>{exercise.instructions}</p>
 
