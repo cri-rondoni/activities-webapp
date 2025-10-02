@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import neckSide from "../assets/neck_side_cut_2.png"; // <-- l'immagine che hai caricato
+import neckSide from "../assets/neck_stretch.png"; // <-- immagine da caricare
 
 const exercises = [
   {
@@ -66,7 +66,7 @@ export default function Stretch() {
       <img
         src={exercise.image}
         alt={exercise.title}
-        style={{ maxWidth: "400px", margin: "20px auto", borderRadius: "12px" }}
+        style={{ maxWidth: "600px", margin: "20px auto", borderRadius: "12px" }}
       />
       <p style={{ whiteSpace: "pre-line", fontSize: "18px" }}>{exercise.instructions}</p>
 
