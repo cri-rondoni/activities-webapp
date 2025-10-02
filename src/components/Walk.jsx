@@ -71,9 +71,9 @@ export default function Walk() {
       >
         {!done ? (
           <>
-            <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>🚶 Camminata guidata</h1>
+            <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>🚶 Guided walk</h1>
             <p style={{ fontSize: "18px", color: "#444" }}>
-              Tempo: <b>{seconds}</b> / {DURATION} s
+              Time: <b>{seconds}</b> / {DURATION} s
             </p>
             <div
               style={{
@@ -93,7 +93,7 @@ export default function Walk() {
               />
             </div>
             <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              Contapassi: <b>{steps}</b>
+              Step counter: <b>{steps}</b>
             </p>
             <button
               onClick={handleComplete}
