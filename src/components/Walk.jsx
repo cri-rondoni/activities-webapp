@@ -108,7 +108,7 @@ export default function Walk() {
                 transition: "0.3s",
               }}
             >
-              ✅ Completato
+              ✅ Completed
             </button>
           </>
         ) : (
