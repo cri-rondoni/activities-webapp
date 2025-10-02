@@ -64,7 +64,7 @@ export default function Walk() {
           background: "#fff",
           borderRadius: "16px",
           padding: "40px",
-          maxWidth: "500px",
+          width: "500px",
           textAlign: "center",
           boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
         }}
