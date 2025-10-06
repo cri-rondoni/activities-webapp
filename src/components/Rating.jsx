@@ -6,7 +6,10 @@ export default function Rating({ activity }) {
   const [submitted, setSubmitted] = useState(false);
 
   // 👇 Change this with the robot or PC IP running ROS + Flask
-  const ROBOT_IP = "192.168.xx.xx";
+  //const ROBOT_IP = "192.168.xx.xx";
+  //const ROBOT_URL = `http://${ROBOT_IP}:5000/rating_feedback`;
+
+  const ROBOT_IP = "localhost";
   const ROBOT_URL = `http://${ROBOT_IP}:5000/rating_feedback`;
 
   const handleSubmit = async () => {
