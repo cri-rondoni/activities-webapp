@@ -5,13 +5,13 @@ export default function Rating({ activity }) {
   const [relaxation, setRelaxation] = useState(4);
   const [submitted, setSubmitted] = useState(false);
 
-  const ROBOT_IP = "<ROBOT_IP>"; // e.g., 192.168.1.42
-  const ROBOT_URL = `http://${ROBOT_IP}:5000/activity_done`;
+  // 👇 Change this with the robot or PC IP running ROS + Flask
+  const ROBOT_IP = "192.168.xx.xx";
+  const ROBOT_URL = `http://${ROBOT_IP}:5000/rating_feedback`;
 
-  // Send data to robot when user submits
   const handleSubmit = async () => {
     try {
-      await fetch(ROBOT_URL, {
+      const res = await fetch(ROBOT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -20,9 +20,15 @@ export default function Rating({ activity }) {
           relaxation: relaxation,
         }),
       });
-      setSubmitted(true);
+
+      if (res.ok) {
+        console.log("✅ Feedback sent successfully");
+        setSubmitted(true);
+      } else {
+        console.error("⚠️ Error sending feedback:", res.status);
+      }
     } catch (err) {
-      console.error("Error sending data:", err);
+      console.error("🚨 Network error:", err);
     }
   };
 
@@ -62,7 +68,7 @@ export default function Rating({ activity }) {
           background: "#fff",
           borderRadius: "16px",
           padding: "50px",
-          width: "650px",
+          width: "700px",
           textAlign: "center",
           boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
         }}
@@ -71,37 +77,51 @@ export default function Rating({ activity }) {
           🙌 Thank you! Please rate your experience 👇
         </h1>
 
-        {/* --- Likeability (Godspeed S3) --- */}
+        {/* --- Likeability (Robot perception) --- */}
         <div style={{ marginBottom: "50px" }}>
           <h2 style={{ fontSize: "22px", marginBottom: "10px" }}>
             How friendly / pleasant did the robot seem during the activity?
           </h2>
 
-          <input
-            type="range"
-            min="1"
-            max="7"
-            value={likeability}
-            onChange={(e) => setLikeability(parseInt(e.target.value))}
-            style={{ width: "80%", accentColor: "#4a90e2" }}
-          />
-
-          {/* Likert scale labels */}
           <div
             style={{
+              width: "90%",
+              margin: "0 auto",
               display: "flex",
-              justifyContent: "space-between",
-              marginTop: "5px",
-              fontSize: "18px",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <span>😠 1</span>
-            <span>😕 2</span>
-            <span>😐 3</span>
-            <span>🙂 4</span>
-            <span>😀 5</span>
-            <span>😊 6</span>
-            <span>🤗 7</span>
+            <input
+              type="range"
+              min="1"
+              max="7"
+              value={likeability}
+              onChange={(e) => setLikeability(parseInt(e.target.value))}
+              style={{
+                width: "100%",
+                accentColor: "#4a90e2",
+              }}
+            />
+
+            {/* Scale with emojis */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                marginTop: "8px",
+                fontSize: "20px",
+              }}
+            >
+              <span>😠 1</span>
+              <span>😕 2</span>
+              <span>😐 3</span>
+              <span>🙂 4</span>
+              <span>😀 5</span>
+              <span>😊 6</span>
+              <span>🤗 7</span>
+            </div>
           </div>
 
           <p style={{ fontSize: "16px", color: "#555", marginTop: "5px" }}>
@@ -115,31 +135,45 @@ export default function Rating({ activity }) {
             How do you feel right now?
           </h2>
 
-          <input
-            type="range"
-            min="1"
-            max="7"
-            value={relaxation}
-            onChange={(e) => setRelaxation(parseInt(e.target.value))}
-            style={{ width: "80%", accentColor: "#4a90e2" }}
-          />
-
-          {/* Likert scale labels */}
           <div
             style={{
+              width: "90%",
+              margin: "0 auto",
               display: "flex",
-              justifyContent: "space-between",
-              marginTop: "5px",
-              fontSize: "18px",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <span>😣 1</span>
-            <span>😕 2</span>
-            <span>😐 3</span>
-            <span>🙂 4</span>
-            <span>😌 5</span>
-            <span>😊 6</span>
-            <span>😄 7</span>
+            <input
+              type="range"
+              min="1"
+              max="7"
+              value={relaxation}
+              onChange={(e) => setRelaxation(parseInt(e.target.value))}
+              style={{
+                width: "100%",
+                accentColor: "#4a90e2",
+              }}
+            />
+
+            {/* Scale with emojis */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+                marginTop: "8px",
+                fontSize: "20px",
+              }}
+            >
+              <span>😣 1</span>
+              <span>😕 2</span>
+              <span>😐 3</span>
+              <span>🙂 4</span>
+              <span>😌 5</span>
+              <span>😊 6</span>
+              <span>😄 7</span>
+            </div>
           </div>
 
           <p style={{ fontSize: "16px", color: "#555", marginTop: "5px" }}>
