@@ -1,53 +1,57 @@
 import React, { useState, useEffect } from "react";
+import Rating from "./Rating";
 
 export default function Walk() {
-  const DURATION = 120; // secondi
+  const DURATION = 120; // total activity duration in seconds
   const [seconds, setSeconds] = useState(0);
   const [steps, setSteps] = useState(0);
-  const [done, setDone] = useState(false);
+  const [completed, setCompleted] = useState(false);
 
-  const ROBOT_URL = "http://<ROBOT_IP>:5000/activity_done";
-  const STEPS_URL = "http://<ROBOT_IP>:5000/get_steps";
+  // 🔗 Replace with your robot's real IP address
+  const ROBOT_IP = "<ROBOT_IP>"; // e.g. 192.168.1.42
+  const STEPS_URL = `http://${ROBOT_IP}:5000/get_steps`;
 
-  // Timer principale
+  // ------------------------------
+  // 🕒 Main timer logic
+  // ------------------------------
   useEffect(() => {
-    if (done) return;
+    if (completed) return;
 
-    if (seconds < DURATION) {
-      const interval = setInterval(async () => {
-        setSeconds((s) => s + 1);
+    const interval = setInterval(async () => {
+      // Increment seconds every second
+      setSeconds((s) => s + 1);
 
-        try {
-          const res = await fetch(STEPS_URL);
-          const data = await res.json();
-          setSteps(data.steps);
-        } catch (err) {
-          console.error("Errore fetch steps:", err);
-        }
-      }, 1000);
-      return () => clearInterval(interval);
-    } else {
-      handleComplete();
+      // Fetch the number of steps from robot’s API
+      try {
+        const res = await fetch(STEPS_URL);
+        const data = await res.json();
+        setSteps(data.steps);
+      } catch (err) {
+        console.warn("Error fetching steps:", err);
+      }
+    }, 1000);
+
+    // When time is up → mark as completed
+    if (seconds >= DURATION) {
+      clearInterval(interval);
+      setCompleted(true);
     }
-  }, [seconds, done]);
 
-  const handleComplete = async () => {
-    setDone(true);
-    try {
-      await fetch(ROBOT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ activity: "walk" }),
-      });
-      console.log("Notifica inviata al robot");
-    } catch (err) {
-      console.error("Errore invio al robot:", err);
-    }
-  };
+    return () => clearInterval(interval);
+  }, [seconds, completed]);
 
-  // progress %
+  // Calculate progress bar percentage
   const progress = (seconds / DURATION) * 100;
 
+  // ------------------------------
+  // 🏁 When activity is completed
+  // ------------------------------
+  // Show the Godspeed + Affect Grid rating component
+  if (completed) return <Rating activity="walk" />;
+
+  // ------------------------------
+  // 🏃 Guided Walk UI
+  // ------------------------------
   return (
     <div
       style={{
@@ -64,56 +68,58 @@ export default function Walk() {
           background: "#fff",
           borderRadius: "16px",
           padding: "40px",
-          width: "500px",
+          width: "480px",
           textAlign: "center",
           boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
         }}
       >
-        {!done ? (
-          <>
-            <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>🚶 Guided walk</h1>
-            <p style={{ fontSize: "18px", color: "#444" }}>
-              Time: <b>{seconds}</b> / {DURATION} s
-            </p>
-            <div
-              style={{
-                background: "#e0e0e0",
-                borderRadius: "10px",
-                overflow: "hidden",
-                margin: "15px 0",
-              }}
-            >
-              <div
-                style={{
-                  height: "14px",
-                  width: `${progress}%`,
-                  background: "#4a90e2",
-                  transition: "width 1s linear",
-                }}
-              />
-            </div>
-            <p style={{ fontSize: "18px", marginBottom: "20px" }}>
-              Step counter: <b>{steps}</b>
-            </p>
-            <button
-              onClick={handleComplete}
-              style={{
-                padding: "12px 24px",
-                fontSize: "18px",
-                background: "#4CAF50",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                transition: "0.3s",
-              }}
-            >
-              ✅ Completed
-            </button>
-          </>
-        ) : (
-          <h2 style={{ color: "#2ecc71" }}>🎉 Well done! Activity completed.</h2>
-        )}
+        <h1 style={{ fontSize: "28px", marginBottom: "10px" }}>🚶 Guided Walk</h1>
+
+        {/* Time counter */}
+        <p style={{ fontSize: "18px", color: "#444" }}>
+          Time: <b>{seconds}</b> / {DURATION} s
+        </p>
+
+        {/* Progress bar */}
+        <div
+          style={{
+            background: "#e0e0e0",
+            borderRadius: "10px",
+            overflow: "hidden",
+            margin: "15px 0",
+          }}
+        >
+          <div
+            style={{
+              height: "14px",
+              width: `${progress}%`,
+              background: "#4a90e2",
+              transition: "width 1s linear",
+            }}
+          />
+        </div>
+
+        {/* Step counter */}
+        <p style={{ fontSize: "18px", marginBottom: "20px" }}>
+          Step counter: <b>{steps}</b>
+        </p>
+
+        {/* Manual completion button */}
+        <button
+          onClick={() => setCompleted(true)}
+          style={{
+            padding: "12px 24px",
+            fontSize: "18px",
+            background: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            transition: "0.3s",
+          }}
+        >
+          ✅ Completed
+        </button>
       </div>
     </div>
   );
